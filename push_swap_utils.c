@@ -35,6 +35,8 @@ int	check_stack(char **v)
 	int	i2;
 
 	i2 = -1;
+	if (v == NULL)
+		return (1);
 	while (v[++i2] != NULL)
 	{
 		i = -1;
@@ -55,14 +57,12 @@ int	check_stack(char **v)
 	return (0);
 }
 
-t_list	*arg_to_list(char **argv)
+t_list	*arg_to_list(t_list **lst, char **argv)
 {
-	t_list	*lst;
 	t_list	*next;
 	int		i;
 	int		*nb;
 
-	lst = 0;
 	i = 0;
 	while (argv[i] != NULL)
 	{
@@ -73,9 +73,9 @@ t_list	*arg_to_list(char **argv)
 		next = ft_lstnew((void *)nb);
 		if (next == NULL)
 			return (free(nb), NULL);
-		ft_lstadd_back(&lst, next);
+		ft_lstadd_back(lst, next);
 	}
-	return (lst);
+	return (*lst);
 }
 
 void	ft_free2d(void **ptr)

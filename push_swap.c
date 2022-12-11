@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/03 16:14:21 by rburgsta          #+#    #+#             */
-/*   Updated: 2022/12/03 16:14:21 by rburgsta         ###   ########.fr       */
+/*   Created: 2022/12/09 00:07:33 by rburgsta          #+#    #+#             */
+/*   Updated: 2022/12/09 00:07:33 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,16 +100,14 @@ int	main(int argc, char **argv)
 	else if (argc > 1)
 	{
 		b = 0;
-		a = arg_to_list(param);
-		if (a != NULL)
-		{
+		a = 0;
+		if (arg_to_list(&a, param) != NULL)
 			solve_stack(&a, &b, ft_lstsize(a) + ft_lstsize(b));
-			ft_lstclear(&a, &free);
-		}
 		else
 			write(2, "Error\n", 6);
+		ft_lstclear(&a, &free);
 	}
-	if (argc == 2)
+	if (argc == 2 && param != NULL)
 		ft_free2d((void **)param);
 	return (0);
 }

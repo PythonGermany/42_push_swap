@@ -18,7 +18,7 @@
 //push_swap_utils
 int		check_int(char *str);
 int		check_stack(char **v);
-t_list	*arg_to_list(char **argv);
+t_list	*arg_to_list(t_list **lst, char **argv);
 void	ft_free2d(void **ptr);
 
 void	do_operation(t_list **a, t_list **b, const char *op);

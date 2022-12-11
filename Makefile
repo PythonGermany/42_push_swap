@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+         #
+#    By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/25 15:38:03 by rburgsta          #+#    #+#              #
-#    Updated: 2022/12/08 17:38:22 by rburgsta         ###   ########.fr        #
+#    Updated: 2022/12/09 00:07:59 by rburgsta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,10 +18,10 @@ LK_SAN = #-Wno-gnu-include-next -I/LeakSanitizer/include -L../LeakSanitizer/ -ll
 FT_PATH = libft
 LIBFT_INC = $(FT_PATH)
 
-SRC = main.c operations.c push_swap_utils.c
+SRC = push_swap.c push_swap_utils.c operations.c
 OBJ = $(SRC:%.c=%.o)
 
-BONUS_SRC = checker.c operations.c push_swap_utils.c
+BONUS_SRC = checker.c push_swap_utils.c operations.c
 BONUS_OBJ = $(BONUS_SRC:%.c=%.o)
 
 all : $(NAME)

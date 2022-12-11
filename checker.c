@@ -59,21 +59,20 @@ int	check_valid_op(char *op)
 	return (1);
 }
 
-int	read_instructions(t_list **op)
+int	read_op(t_list **op)
 {
 	char	*str;
 	t_list	*next;
 
-	*op = 0;
 	str = get_next_line(0);
 	while (str)
 	{
 		if (ft_strlen(str) < 3 || ft_strlen(str) > 4 \
 			|| str[ft_strlen(str) - 1] != '\n')
-			return (1);
+			return (free(str), 1);
 		str[ft_strlen(str) - 1] = '\0';
 		if (check_valid_op(str))
-			return (1);
+			return (free(str), 1);
 		next = ft_lstnew(str);
 		if (!next)
 			return (free(str), 1);
@@ -93,20 +92,19 @@ int	main(int argc, char **argv)
 		param = ft_split(argv[1], ' ');
 	else if (argc > 2)
 		param = &argv[1];
-	if (argc > 1 && (check_stack(param) || read_instructions(&op)))
+	op = 0;
+	if (argc > 1 && (check_stack(param) || read_op(&op)))
 		write(2, "Error\n", 6);
 	else if (argc > 1)
 	{
-		stack = arg_to_list(param);
-		if (stack != NULL)
-		{
+		stack = 0;
+		if (arg_to_list(&stack, param) != NULL)
 			sort_list(&stack, op);
-			ft_lstclear(&stack, &free);
-		}
 		else
 			write(2, "Error\n", 6);
+		ft_lstclear(&stack, &free);
 	}
-	if (argc == 2)
+	if (argc == 2 && param != NULL)
 		ft_free2d((void **)param);
 	ft_lstclear(&op, &free);
 	return (0);
