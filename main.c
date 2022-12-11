@@ -26,6 +26,17 @@
 	return (1);
 }*/
 
+// void	print_list(t_list *lst, const char *str)
+// {
+// 	ft_printf("%s: ", str);
+// 	while (lst != NULL)
+// 	{
+// 		ft_printf("%s, ", (char *)lst->content);
+// 		lst = lst->next;
+// 	}
+// 	ft_printf("\n");
+// }
+
 int	nthsmallest(t_list *lst, int n)
 {
 	t_list	*tmp;
@@ -53,17 +64,6 @@ int	nthsmallest(t_list *lst, int n)
 	return (0);
 }
 
-void	print_list(t_list *lst, const char *str)
-{
-	ft_printf("%s: ", str);
-	while (lst != NULL)
-	{
-		ft_printf("%s, ", (char *)lst->content);
-		lst = lst->next;
-	}
-	ft_printf("\n");
-}
-
 void	stack_chunking(t_list **a, t_list **b, int chunk_size)
 {
 	int	next;
@@ -82,21 +82,21 @@ void	stack_chunking(t_list **a, t_list **b, int chunk_size)
 	}
 	if (next > 0)
 		while (next-- > 0)
-			do_operation(a, b, "ra", 1);
+			do_operation(a, b, "ra");
 	else
 		while (next++ < 0)
-			do_operation(a, b, "rra", 1);
-	do_operation(a, b, "pb", 1);
+			do_operation(a, b, "rra");
+	do_operation(a, b, "pb");
 }
 
 void	stack_sorting(t_list **a, t_list **b)
 {
 	if (!nthsmallest(*b, ft_lstsize(*b) - 1))
-		do_operation(a, b, "pa", 1);
+		do_operation(a, b, "pa");
 	if (nthsmallest(*b, ft_lstsize(*b) - 1) < ft_lstsize(*b) / 2)
-		do_operation(a, b, "rb", 1);
+		do_operation(a, b, "rb");
 	else
-		do_operation(a, b, "rrb", 1);
+		do_operation(a, b, "rrb");
 }
 
 int	main(int argc, char **argv)
@@ -116,14 +116,15 @@ int	main(int argc, char **argv)
 		b = 0;
 		a = arg_to_list(param);
 		while (ft_lstsize(a) > 0)
-			stack_chunking(&a, &b, ft_lstsize(a) / ((ft_lstsize(a) + ft_lstsize(b)) * 3 / 200 + 3.5));
+			stack_chunking(&a, &b, ft_lstsize(a) / \
+			((ft_lstsize(a) + ft_lstsize(b)) * 3 / 200 + 3.5));
 		while (ft_lstsize(b) > 0)
 			stack_sorting(&a, &b);
 		// print_list(a, "A");
 		// print_list(b, "B");
 		// if (check_sorted(a))
 		// 	ft_printf("Sorted!\n");
-		// ft_free_list(a);
+		ft_free_list(a);
 	}
 	if (argc == 2)
 		ft_free2d((void **)param);

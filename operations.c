@@ -6,16 +6,16 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 12:51:02 by rburgsta          #+#    #+#             */
-/*   Updated: 2022/12/07 22:09:40 by rburgsta         ###   ########.fr       */
+/*   Updated: 2022/12/08 02:51:30 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void op_swap(t_list **lst)
+int	swap(t_list **lst)
 {
 	t_list	*tmp;
-	
+
 	if (ft_lstsize(*lst) > 1)
 	{
 		tmp = *lst;
@@ -23,9 +23,10 @@ void op_swap(t_list **lst)
 		tmp->next = (*lst)->next;
 		(*lst)->next = tmp;
 	}
+	return (0);
 }
 
-void	op_push(t_list **dst, t_list **src)
+void	push(t_list **dst, t_list **src)
 {
 	t_list	*temp;
 
@@ -37,7 +38,7 @@ void	op_push(t_list **dst, t_list **src)
 	}
 }
 
-void	op_rotate(t_list **lst)
+int	rotate(t_list **lst)
 {
 	t_list	*temp;
 
@@ -47,11 +48,13 @@ void	op_rotate(t_list **lst)
 		*lst = (*lst)->next;
 		ft_lstadd_back(lst, temp);
 	}
+	return (0);
 }
 
-void	op_reverse_rotate(t_list **lst)
+int	rev_rotate(t_list **lst)
 {
 	t_list	*temp;
+
 	if (ft_lstsize(*lst) > 1)
 	{
 		temp = *lst;
@@ -60,47 +63,32 @@ void	op_reverse_rotate(t_list **lst)
 		ft_lstadd_front(lst, ft_lstlast(*lst));
 		temp->next = 0;
 	}
+	return (0);
 }
 
-static void	do_multi_operation(t_list **a, t_list **b, const char *op)
-{
-	if (!ft_strncmp(op, "ss", 4))
-	{
-		op_swap(a);
-		op_swap(b);
-	}
-	else if (!ft_strncmp(op, "rr", 4))
-	{
-		op_rotate(a);
-		op_rotate(b);
-	}
-	else if (!ft_strncmp(op, "rrr", 4))
-	{
-		op_reverse_rotate(a);
-		op_reverse_rotate(b);
-	}
-}
-
-void	do_operation(t_list **a, t_list **b, const char *op, int out)
+void	do_operation(t_list **a, t_list **b, const char *op)
 {
 	if (!ft_strncmp(op, "sa", 4))
-		op_swap(a);
+		swap(a);
 	else if (!ft_strncmp(op, "sb", 4))
-		op_swap(b);
+		swap(b);
 	else if (!ft_strncmp(op, "pa", 4))
-		op_push(a, b);
+		push(a, b);
 	else if (!ft_strncmp(op, "pb", 4))
-		op_push(b, a);
+		push(b, a);
 	else if (!ft_strncmp(op, "ra", 4))
-		op_rotate(a);
+		rotate(a);
 	else if (!ft_strncmp(op, "rb", 4))
-		op_rotate(b);
+		rotate(b);
 	else if (!ft_strncmp(op, "rra", 4))
-		op_reverse_rotate(a);
+		rev_rotate(a);
 	else if (!ft_strncmp(op, "rrb", 4))
-		op_reverse_rotate(b);
-	else
-		do_multi_operation(a, b, op);
-	if (out)
-		ft_printf("%s\n", op);
+		rev_rotate(b);
+	else if (!ft_strncmp(op, "ss", 4) && !swap(a) && !swap(b))
+		;
+	else if (!ft_strncmp(op, "rr", 4) && !rotate(a) && !rotate(b))
+		;
+	else if (!ft_strncmp(op, "rrr", 4) && !rev_rotate(a) && !rev_rotate(b))
+		(void)op;
+	ft_printf("%s\n", op);
 }

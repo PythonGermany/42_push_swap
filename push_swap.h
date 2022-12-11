@@ -22,6 +22,6 @@ t_list	*arg_to_list(char **argv);
 void	ft_free2d(void **ptr);
 void	ft_free_list(t_list *lst);
 
-void	do_operation(t_list **a, t_list **b, const char *op, int out);
+void	do_operation(t_list **a, t_list **b, const char *op);
 
 #endif
