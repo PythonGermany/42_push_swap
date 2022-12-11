@@ -43,6 +43,12 @@ int	nthsmallest(t_list *lst, int n)
 
 void	sort_stack(t_list **a, t_list **b)
 {
+	if (ft_lstsize(*a) > 2 && !nthsmallest(*a, ft_lstsize(*a) - 1))
+		do_operation(a, b, "ra");
+	else if (ft_lstsize(*a) > 2 && nthsmallest(*a, ft_lstsize(*a) - 1) == 1)
+		do_operation(a, b, "rra");
+	if (ft_lstsize(*a) > 1 && nthsmallest(*a, 0) > nthsmallest(*a, 1))
+		do_operation(a, b, "sa");
 	while (ft_lstsize(*b) > 0)
 	{
 		if (!nthsmallest(*b, ft_lstsize(*b) - 1))
@@ -52,7 +58,6 @@ void	sort_stack(t_list **a, t_list **b)
 		else
 			do_operation(a, b, "rrb");
 	}
-	//Sort_stack_small?
 }
 
 void	solve_stack(t_list **a, t_list **b, int stack_size)
@@ -61,9 +66,10 @@ void	solve_stack(t_list **a, t_list **b, int stack_size)
 	int	curr;
 	int	i;
 
-	while (ft_lstsize(*a) > 0 /*&& stack_size > 5*/)
+	while (ft_lstsize(*a) > 3)
 	{
-		next = ft_lstsize(*a) / 2;
+		next = nthsmallest(*a, 0) - \
+		ft_lstsize(*a) * (curr > ft_lstsize(*a) / 2);
 		i = ft_lstsize(*a) / (stack_size * 3 / 200 + 3.5) - 1;
 		while (i >= 0)
 		{
