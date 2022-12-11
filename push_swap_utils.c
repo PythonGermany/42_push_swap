@@ -67,7 +67,7 @@ t_list	*arg_to_list(t_list **lst, char **argv)
 	while (argv[i] != NULL)
 	{
 		nb = (int *)ft_calloc(1, sizeof(int));
-		if (!nb)
+		if (nb == NULL)
 			return (NULL);
 		*nb = ft_atoi(argv[i++]);
 		next = ft_lstnew((void *)nb);
@@ -83,7 +83,7 @@ void	ft_free2d(void **ptr)
 	int	i;
 
 	i = -1;
-	while (((char **)ptr)[++i])
+	while (((char **)ptr)[++i] != NULL)
 		free(((char **)ptr)[i]);
 	free(ptr);
 }

@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 12:51:02 by rburgsta          #+#    #+#             */
-/*   Updated: 2022/12/08 02:51:30 by rburgsta         ###   ########.fr       */
+/*   Updated: 2022/12/09 00:23:00 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	rev_rotate(t_list **lst)
 	if (ft_lstsize(*lst) > 1)
 	{
 		temp = *lst;
-		while (temp->next->next)
+		while (temp->next->next != NULL)
 			temp = temp->next;
 		ft_lstadd_front(lst, ft_lstlast(*lst));
 		temp->next = 0;
