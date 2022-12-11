@@ -53,7 +53,7 @@ void	sort_stack(t_list **a, t_list **b)
 	{
 		if (!nthsmallest(*b, ft_lstsize(*b) - 1))
 			do_operation(a, b, "pa");
-		if (nthsmallest(*b, ft_lstsize(*b) - 1) < ft_lstsize(*b) / 2)
+		else if (nthsmallest(*b, ft_lstsize(*b) - 1) < ft_lstsize(*b) / 2)
 			do_operation(a, b, "rb");
 		else
 			do_operation(a, b, "rrb");
