@@ -1,26 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                          :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/28 19:46:43 by rburgsta          #+#    #+#             */
-/*   Updated: 2022/11/28 19:46:43 by rburgsta         ###   ########.fr       */
+/*   Created: 2022/10/16 01:24:03 by rburgsta          #+#    #+#             */
+/*   Updated: 2022/10/16 01:24:03 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#include <stdlib.h>
+#include "libft.h"
 
-# include "libft.h"
+void	ft_lstclear(t_list **lst, void (*del)(void*))
+{
+	t_list	*temp;
+	t_list	*n;
 
-//push_swap_utils
-int		check_int(char *str);
-int		check_stack(char **v);
-t_list	*arg_to_list(char **argv);
-void	ft_free2d(void **ptr);
-
-void	do_operation(t_list **a, t_list **b, const char *op);
-
-#endif
+	if (lst && del)
+	{
+		temp = *lst;
+		if (temp)
+		{
+			del(temp->content);
+			while (temp->next)
+			{
+				n = temp->next;
+				free(temp);
+				temp = n;
+				del(temp->content);
+			}
+			free(temp);
+		}
+		*lst = 0;
+	}
+}

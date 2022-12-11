@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                          :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/28 19:46:43 by rburgsta          #+#    #+#             */
-/*   Updated: 2022/11/28 19:46:43 by rburgsta         ###   ########.fr       */
+/*   Created: 2022/10/12 13:01:56 by rburgsta          #+#    #+#             */
+/*   Updated: 2022/10/12 13:01:56 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+char	*ft_strrchr(const char *s, int c)
+{
+	int		i;
 
-# include "libft.h"
-
-//push_swap_utils
-int		check_int(char *str);
-int		check_stack(char **v);
-t_list	*arg_to_list(char **argv);
-void	ft_free2d(void **ptr);
-
-void	do_operation(t_list **a, t_list **b, const char *op);
-
-#endif
+	i = 0;
+	while (s[i])
+		i++;
+	while (i >= 0)
+		if (s[i--] == (char)c)
+			return ((char *)&s[++i]);
+	return (0);
+}

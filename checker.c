@@ -11,15 +11,15 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdlib.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 int	check_sorted(t_list *lst)
 {
 	while (lst->next)
 	{
-		if (ft_atoi((char *)lst->content) >= \
-			ft_atoi((char *)lst->next->content))
+		if (*(int *)lst->content >= \
+			*(int *)lst->next->content)
 			return (0);
 		lst = lst->next;
 	}
@@ -40,7 +40,6 @@ void	sort_list(t_list **lst, t_list *op)
 		ft_printf("OK\n");
 	else
 		ft_printf("KO\n");
-	ft_free_list(*lst);
 }
 
 int	check_valid_op(char *op)
@@ -63,7 +62,9 @@ int	check_valid_op(char *op)
 int	read_instructions(t_list **op)
 {
 	char	*str;
+	t_list	*next;
 
+	*op = 0;
 	str = get_next_line(0);
 	while (str)
 	{
@@ -73,7 +74,10 @@ int	read_instructions(t_list **op)
 		str[ft_strlen(str) - 1] = '\0';
 		if (check_valid_op(str))
 			return (1);
-		ft_lstadd_back(op, ft_lstnew(str));
+		next = ft_lstnew(str);
+		if (!next)
+			return (free(str), 1);
+		ft_lstadd_back(op, next);
 		str = get_next_line(0);
 	}
 	return (0);
@@ -85,7 +89,6 @@ int	main(int argc, char **argv)
 	t_list	*stack;
 	t_list	*op;
 
-	op = 0;
 	if (argc == 2)
 		param = ft_split(argv[1], ' ');
 	else if (argc > 2)
@@ -95,10 +98,16 @@ int	main(int argc, char **argv)
 	else if (argc > 1)
 	{
 		stack = arg_to_list(param);
-		sort_list(&stack, op);
+		if (stack != NULL)
+		{
+			sort_list(&stack, op);
+			ft_lstclear(&stack, &free);
+		}
+		else
+			write(2, "Error\n", 6);
 	}
 	if (argc == 2)
 		ft_free2d((void **)param);
-	ft_free_list(op);
+	ft_lstclear(&op, &free);
 	return (0);
 }

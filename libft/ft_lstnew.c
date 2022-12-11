@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                          :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/28 19:46:43 by rburgsta          #+#    #+#             */
-/*   Updated: 2022/11/28 19:46:43 by rburgsta         ###   ########.fr       */
+/*   Created: 2022/10/16 00:04:39 by rburgsta          #+#    #+#             */
+/*   Updated: 2022/10/16 00:04:39 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#include <stdlib.h>
+#include "libft.h"
 
-# include "libft.h"
+t_list	*ft_lstnew(void *content)
+{
+	t_list	*el;
 
-//push_swap_utils
-int		check_int(char *str);
-int		check_stack(char **v);
-t_list	*arg_to_list(char **argv);
-void	ft_free2d(void **ptr);
-
-void	do_operation(t_list **a, t_list **b, const char *op);
-
-#endif
+	el = (t_list *)malloc(sizeof(t_list));
+	if (el)
+	{
+		el->content = content;
+		el->next = 0;
+	}
+	return (el);
+}

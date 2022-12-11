@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                          :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/28 19:46:43 by rburgsta          #+#    #+#             */
-/*   Updated: 2022/11/28 19:46:43 by rburgsta         ###   ########.fr       */
+/*   Created: 2022/10/12 13:15:05 by rburgsta          #+#    #+#             */
+/*   Updated: 2022/10/12 13:15:05 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#include <stddef.h>
 
-# include "libft.h"
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
 
-//push_swap_utils
-int		check_int(char *str);
-int		check_stack(char **v);
-t_list	*arg_to_list(char **argv);
-void	ft_free2d(void **ptr);
-
-void	do_operation(t_list **a, t_list **b, const char *op);
-
-#endif
+	i = 0;
+	while (i < n)
+	{
+		if ((unsigned char)s1[i] != (unsigned char)s2[i] || !s1[i] || !s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return (0);
+}

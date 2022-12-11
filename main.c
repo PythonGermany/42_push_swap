@@ -11,31 +11,8 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdlib.h>
 #include <unistd.h>
-
-/*int	check_sorted(t_list *lst)
-{
-	while (lst->next)
-	{
-		if (ft_atoi((char *)lst->content) >= \
-			ft_atoi((char *)lst->next->content))
-			return (0);
-		lst = lst->next;
-	}
-	return (1);
-}*/
-
-// void	print_list(t_list *lst, const char *str)
-// {
-// 	ft_printf("%s: ", str);
-// 	while (lst != NULL)
-// 	{
-// 		ft_printf("%s, ", (char *)lst->content);
-// 		lst = lst->next;
-// 	}
-// 	ft_printf("\n");
-// }
+#include <stdlib.h>
 
 int	nthsmallest(t_list *lst, int n)
 {
@@ -52,7 +29,7 @@ int	nthsmallest(t_list *lst, int n)
 		tmp = start;
 		while (tmp)
 		{
-			if (ft_atoi((char *)lst->content) > ft_atoi((char *)tmp->content))
+			if (*(int *)lst->content > *(int *)tmp->content)
 				val++;
 			tmp = tmp->next;
 		}
@@ -64,41 +41,51 @@ int	nthsmallest(t_list *lst, int n)
 	return (0);
 }
 
-void	stack_chunking(t_list **a, t_list **b, int chunk_size)
+void	sort_stack(t_list **a, t_list **b)
+{
+	while (ft_lstsize(*b) > 0)
+	{
+		if (!nthsmallest(*b, ft_lstsize(*b) - 1))
+			do_operation(a, b, "pa");
+		if (nthsmallest(*b, ft_lstsize(*b) - 1) < ft_lstsize(*b) / 2)
+			do_operation(a, b, "rb");
+		else
+			do_operation(a, b, "rrb");
+	}
+}
+
+void	solve_stack(t_list **a, t_list **b, int stack_size)
 {
 	int	next;
 	int	curr;
 	int	i;
 
-	next = ft_lstsize(*a) / 2;
-	i = chunk_size - 1;
-	while (i >= 0)
+	while (ft_lstsize(*a) > 0)
 	{
-		curr = nthsmallest(*a, i--);
-		if (curr > ft_lstsize(*a) / 2)
-			curr -= ft_lstsize(*a);
-		if (next * next > curr * curr)
-			next = curr;
+		next = ft_lstsize(*a) / 2;
+		i = ft_lstsize(*a) / (stack_size * 3 / 200 + 3.5) - 1;
+		while (i >= 0)
+		{
+			curr = nthsmallest(*a, i--);
+			if (curr > ft_lstsize(*a) / 2)
+				curr -= ft_lstsize(*a);
+			if (next * next > curr * curr)
+				next = curr;
+		}
+		if (next > 0)
+			while (next-- > 0)
+				do_operation(a, b, "ra");
+		else
+			while (next++ < 0)
+				do_operation(a, b, "rra");
+		do_operation(a, b, "pb");
 	}
-	if (next > 0)
-		while (next-- > 0)
-			do_operation(a, b, "ra");
-	else
-		while (next++ < 0)
-			do_operation(a, b, "rra");
-	do_operation(a, b, "pb");
+	sort_stack(a, b);
 }
 
-void	stack_sorting(t_list **a, t_list **b)
-{
-	if (!nthsmallest(*b, ft_lstsize(*b) - 1))
-		do_operation(a, b, "pa");
-	if (nthsmallest(*b, ft_lstsize(*b) - 1) < ft_lstsize(*b) / 2)
-		do_operation(a, b, "rb");
-	else
-		do_operation(a, b, "rrb");
-}
-
+//Searches for nearest element inside of the current chunk in a. 
+//Rotates to make it head. Pushes it to b. When a is empty searches
+//for biggest element in b, rotates to make it head and pushes it to a.
 int	main(int argc, char **argv)
 {
 	char	**param;
@@ -115,16 +102,13 @@ int	main(int argc, char **argv)
 	{
 		b = 0;
 		a = arg_to_list(param);
-		while (ft_lstsize(a) > 0)
-			stack_chunking(&a, &b, ft_lstsize(a) / \
-			((ft_lstsize(a) + ft_lstsize(b)) * 3 / 200 + 3.5));
-		while (ft_lstsize(b) > 0)
-			stack_sorting(&a, &b);
-		// print_list(a, "A");
-		// print_list(b, "B");
-		// if (check_sorted(a))
-		// 	ft_printf("Sorted!\n");
-		ft_free_list(a);
+		if (a != NULL)
+		{
+			solve_stack(&a, &b, ft_lstsize(a) + ft_lstsize(b));
+			ft_lstclear(&a, &free);
+		}
+		else
+			write(2, "Error\n", 6);
 	}
 	if (argc == 2)
 		ft_free2d((void **)param);

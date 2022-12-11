@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+         #
+#    By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/25 15:38:03 by rburgsta          #+#    #+#              #
-#    Updated: 2022/12/07 22:24:35 by rburgsta         ###   ########.fr        #
+#    Updated: 2022/12/08 17:38:22 by rburgsta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = push_swap
 
 FLAGS = -Wall -Wextra -Werror
-LK_SAN = #-Wno-gnu-include-next -I/LeakSanitizer/include -L./LeakSanitizer/ -llsan -lc++
+LK_SAN = #-Wno-gnu-include-next -I/LeakSanitizer/include -L../LeakSanitizer/ -llsan -lc++
 
 FT_PATH = libft
 LIBFT_INC = $(FT_PATH)
@@ -21,17 +21,18 @@ LIBFT_INC = $(FT_PATH)
 SRC = main.c operations.c push_swap_utils.c
 OBJ = $(SRC:%.c=%.o)
 
-all : $(FT_PATH) $(NAME)
+BONUS_SRC = checker.c operations.c push_swap_utils.c
+BONUS_OBJ = $(BONUS_SRC:%.c=%.o)
+
+all : $(NAME)
 
 $(NAME) : $(OBJ)
+	make -C $(FT_PATH)
 	cc $(FLAGS) $(LK_SAN) -o $(NAME) $(OBJ) -L$(FT_PATH) -lft
 
-bonus : checker.o operations.o push_swap_utils.o
-	cc $(FLAGS) $(LK_SAN) -o checker $^ -L$(FT_PATH) -lft
-
-$(FT_PATH) :
-	git clone git@github.com:PythonGermany/42_libft.git $(FT_PATH)
+bonus : $(BONUS_OBJ)
 	make -C $(FT_PATH)
+	cc $(FLAGS) $(LK_SAN) -o checker $(BONUS_OBJ) -L$(FT_PATH) -lft
 
 %.o : %.c
 	cc -c $(FLAGS) -I$(LIBFT_INC) $^
@@ -42,6 +43,6 @@ clean :
 
 fclean : clean
 	make -C $(FT_PATH) fclean
-	rm -rf $(NAME) $(FT_PATH) checker
+	rm -rf $(NAME) checker
 
 re : fclean all
