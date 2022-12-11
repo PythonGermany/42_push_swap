@@ -47,7 +47,7 @@ void	sort_stack(t_list **a, t_list **b)
 		do_operation(a, b, "ra");
 	else if (ft_lstsize(*a) > 2 && nthsmallest(*a, ft_lstsize(*a) - 1) == 1)
 		do_operation(a, b, "rra");
-	if (ft_lstsize(*a) > 1 && nthsmallest(*a, 0) > nthsmallest(*a, 1))
+	if (nthsmallest(*a, 0) > nthsmallest(*a, 1))
 		do_operation(a, b, "sa");
 	while (ft_lstsize(*b) > 0)
 	{
