@@ -10,8 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "push_swap.h"
 #include <stdlib.h>
+#include <unistd.h>
 
 int	check_int(char *str)
 {
@@ -59,11 +60,34 @@ int	check_sorted(t_list *lst)
 {
 	while (lst->next)
 	{
-		if (ft_atoi((char *)lst->content) >= ft_atoi((char *)lst->next->content))
+		if (ft_atoi((char *)lst->content) >= \
+			ft_atoi((char *)lst->next->content))
 			return (0);
 		lst = lst->next;
 	}
 	return (1);
+}
+
+t_list	*arg_to_list(char **argv)
+{
+	t_list	*a;
+	int		i;
+
+	i = 0;
+	while (argv[i] != NULL)
+		ft_lstadd_back(&a, ft_lstnew((void *)argv[i++]));
+	return (a);
+}
+
+void	print_list(t_list *lst, const char *str)
+{
+	ft_printf("%s: ", str);
+	while (lst != NULL)
+	{
+		ft_printf("%s, ", (char *)lst->content);
+		lst = lst->next;
+	}
+	ft_printf("\n");
 }
 
 int	main(int argc, char **argv)
@@ -71,25 +95,44 @@ int	main(int argc, char **argv)
 	char	**param;
 	int		i;
 	t_list *a;
+	t_list *b;
 	t_list *tmp;
 
 	if (argc == 2)
 		param = ft_split(argv[1], ' ');
 	else if (argc > 2)
 		param = &argv[1];
-	i = -1;
 	if (argc > 1 && check_stack(param))
-		ft_printf("Error\n");
-	else
+		write(2, "Error\n", 6);
+	else if (argc > 1)
 	{
+		i = -1;
+		a = 0;
+		b = 0;
 		while (param[++i] != NULL)
 			ft_lstadd_back(&a, ft_lstnew((void *)param[i]));
-		tmp = a;
-		while(tmp)
+		do_operation(&a, &b, "pb");
+		i = 0;
+		while (ft_lstsize(a) > 0)
 		{
-			ft_printf("%s\n", tmp->content);
-			tmp = tmp->next;
+			// if (ft_lstsize(a) > 1 && ft_atoi((char *)a->content) > ft_atoi((char *)a->next->content))
+			// 	do_operation(&a, &b, "sa");
+			while (i < ft_lstsize(b) && ft_atoi((char *)a->content) < ft_atoi((char *)b->content))
+			{
+				do_operation(&a, &b, "rb");
+				i++;
+			}
+			do_operation(&a, &b, "pb");
+			while (i > 0)
+			{
+				do_operation(&a, &b, "rrb");
+				i--;
+			}
 		}
+		while (ft_lstsize(b) > 0)
+			do_operation(&a, &b, "pa");
+		print_list(a, "A");
+		print_list(b, "B");
 		if (check_sorted(a))
 			ft_printf("Sorted!\n");
 		while (a != NULL)
