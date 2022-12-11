@@ -113,12 +113,6 @@ int	main(int argc, char **argv)
 		i = 0;
 		while (ft_lstsize(a) > 0)
 		{
-			// if (ft_lstsize(a) > 1 && ft_atoi((char *)a->content) > ft_atoi((char *)a->next->content))
-			// 	do_operation(&a, &b, "sa");
-			// print_list(a, "A");
-			// print_list(b, "B");
-			// if (ft_lstsize(b) > 1 && ft_atoi((char *)b->content) > ft_atoi((char *)b->next->content))
-			// 	do_operation(&a, &b, "rb");
 			while (i < ft_lstsize(b) && ft_atoi((char *)a->content) < ft_atoi((char *)b->content))
 			{
 				do_operation(&a, &b, "rb");
@@ -143,11 +137,13 @@ int	main(int argc, char **argv)
 				}
 			}
 			i = 0;
+			print_list(a, "\nA");
+			print_list(b, "B");
 		}
 		while (ft_lstsize(b) > 0)
 			do_operation(&a, &b, "pa");
-		// print_list(a, "A");
-		// print_list(b, "B");
+		print_list(a, "A");
+		print_list(b, "B");
 		if (check_sorted(a))
 			ft_printf("Sorted!\n");
 		while (a != NULL)

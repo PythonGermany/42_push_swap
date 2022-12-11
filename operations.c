@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 12:51:02 by rburgsta          #+#    #+#             */
-/*   Updated: 2022/12/05 14:27:39 by rburgsta         ###   ########.fr       */
+/*   Updated: 2022/12/06 13:02:53 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,11 @@ void	do_operation(t_list **a, t_list **b, const char *op)
 		op_reverse_rotate(b);
 	else
 		do_multi_operation(a, b, op);
+	// else if (!ft_strncmp(op, "ss", 4))
+	// 	op_swap(a) && op_swap(b);
+	// else if (!ft_strncmp(op, "rr", 4))
+	// 	op_rotate(a) && op_rotate(b);
+	// else if (!ft_strncmp(op, "rrr", 4))
+	// 	op_reverse_rotate(a) && op_reverse_rotate(b);
 	ft_printf("%s\n", op);
 }
