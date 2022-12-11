@@ -57,6 +57,18 @@ int	check_stack(char **v)
 	return (0);
 }
 
+int	check_sorted(t_list *lst)
+{
+	while (lst->next)
+	{
+		if (*(int *)lst->content >= \
+			*(int *)lst->next->content)
+			return (0);
+		lst = lst->next;
+	}
+	return (1);
+}
+
 t_list	*arg_to_list(t_list **lst, char **argv)
 {
 	t_list	*next;

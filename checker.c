@@ -14,18 +14,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-int	check_sorted(t_list *lst)
-{
-	while (lst->next)
-	{
-		if (*(int *)lst->content >= \
-			*(int *)lst->next->content)
-			return (0);
-		lst = lst->next;
-	}
-	return (1);
-}
-
 void	sort_list(t_list **lst, t_list *op)
 {
 	t_list	*tmp;

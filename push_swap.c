@@ -68,13 +68,13 @@ void	solve_stack(t_list **a, t_list **b, int stack_size)
 
 	while (ft_lstsize(*a) > 3)
 	{
-		next = nthsmallest(*a, 0) - \
-		ft_lstsize(*a) * (curr > ft_lstsize(*a) / 2);
+		next = nthsmallest(*a, 0);
+		next -= ft_lstsize(*a) * (next > ft_lstsize(*a) / 2);
 		i = ft_lstsize(*a) / (stack_size * 3 / 200 + 3.5) - 1;
-		while (i >= 0)
+		while (i >= 0 && ft_lstsize(*a) > 5)
 		{
-			curr = nthsmallest(*a, i--) - \
-			ft_lstsize(*a) * (curr > ft_lstsize(*a) / 2);
+			curr = nthsmallest(*a, i--);
+			curr -= ft_lstsize(*a) * (curr > ft_lstsize(*a) / 2);
 			if (next * next > curr * curr)
 				next = curr;
 		}
@@ -108,9 +108,9 @@ int	main(int argc, char **argv)
 	{
 		b = 0;
 		a = 0;
-		if (arg_to_list(&a, param) != NULL)
+		if (arg_to_list(&a, param) != NULL && !check_sorted(a))
 			solve_stack(&a, &b, ft_lstsize(a));
-		else
+		else if (param == NULL)
 			write(2, "Error\n", 6);
 		ft_lstclear(&a, &free);
 	}
