@@ -67,8 +67,7 @@ void	solve_stack(t_list **a, t_list **b, int stack_size)
 		while (i >= 0)
 		{
 			curr = nthsmallest(*a, i--);
-			if (curr > ft_lstsize(*a) / 2)
-				curr -= ft_lstsize(*a);
+			curr -= ft_lstsize(*a) * (curr > ft_lstsize(*a) / 2);
 			if (next * next > curr * curr)
 				next = curr;
 		}
