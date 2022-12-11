@@ -70,13 +70,13 @@ int	check_sorted(t_list *lst)
 
 t_list	*arg_to_list(char **argv)
 {
-	t_list	*a;
+	t_list	*lst;
 	int		i;
 
 	i = 0;
 	while (argv[i] != NULL)
-		ft_lstadd_back(&a, ft_lstnew((void *)argv[i++]));
-	return (a);
+		ft_lstadd_back(&lst, ft_lstnew((void *)argv[i++]));
+	return (lst);
 }
 
 void	print_list(t_list *lst, const char *str)
@@ -107,32 +107,47 @@ int	main(int argc, char **argv)
 	else if (argc > 1)
 	{
 		i = -1;
-		a = 0;
 		b = 0;
-		while (param[++i] != NULL)
-			ft_lstadd_back(&a, ft_lstnew((void *)param[i]));
+		a = arg_to_list(param);
 		do_operation(&a, &b, "pb");
 		i = 0;
 		while (ft_lstsize(a) > 0)
 		{
 			// if (ft_lstsize(a) > 1 && ft_atoi((char *)a->content) > ft_atoi((char *)a->next->content))
 			// 	do_operation(&a, &b, "sa");
+			// print_list(a, "A");
+			// print_list(b, "B");
+			// if (ft_lstsize(b) > 1 && ft_atoi((char *)b->content) > ft_atoi((char *)b->next->content))
+			// 	do_operation(&a, &b, "rb");
 			while (i < ft_lstsize(b) && ft_atoi((char *)a->content) < ft_atoi((char *)b->content))
 			{
 				do_operation(&a, &b, "rb");
 				i++;
 			}
 			do_operation(&a, &b, "pb");
-			while (i > 0)
+			if (i > ft_lstsize(b) / 2)
 			{
-				do_operation(&a, &b, "rrb");
-				i--;
+				while (i < ft_lstsize(b))
+				{
+					do_operation(&a, &b, "rb");
+					i++;
+				}
+				i = 0;
 			}
+			else
+			{
+				while (i > 0)
+				{
+					do_operation(&a, &b, "rrb");
+					i--;
+				}
+			}
+			i = 0;
 		}
 		while (ft_lstsize(b) > 0)
 			do_operation(&a, &b, "pa");
-		print_list(a, "A");
-		print_list(b, "B");
+		// print_list(a, "A");
+		// print_list(b, "B");
 		if (check_sorted(a))
 			ft_printf("Sorted!\n");
 		while (a != NULL)
