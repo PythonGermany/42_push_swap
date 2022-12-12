@@ -110,7 +110,7 @@ int	main(int argc, char **argv)
 		a = 0;
 		if (arg_to_list(&a, param) != NULL && !check_sorted(a))
 			solve_stack(&a, &b, ft_lstsize(a));
-		else if (param == NULL)
+		else if (a == NULL)
 			write(2, "Error\n", 6);
 		ft_lstclear(&a, &free);
 	}
